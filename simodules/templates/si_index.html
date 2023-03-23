@@ -1,0 +1,132 @@
+{% extends 'homepage.html'%}
+{% load static %}
+
+{% block content %}
+<div class="intro-page container">
+    <div class="row row-cols-5 py-2">
+        <div class="col col-md-2 px-0 control-buttons">
+            <a href="#" class="btn btn-primary"> <i class="bi bi-stack"></i> Batch Add data </a>
+            <a href="#collapsedModuleFilter" role="button" data-bs-toggle="collapse" class="btn btn-primary"> 
+                <i class="bi bi-funnel-fill"></i> Filters 
+            </a>
+        </div>
+
+        <div class="col ms-auto">
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="card-title text-center">Modules</h6>
+                </div>
+                <div class="card-body">
+                  <p class="left-align">Total <span class="badge bg-success"></span></p>
+                  <p class="left-align">Upcoming <span class="badge bg-warning"></span></p>
+                </div>
+            </div>
+        </div>
+        <div class="col ms-auto">
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="card-title text-center">PCBs</h6>
+                </div>
+                <div class="card-body">
+                  <p class="left-align">
+                    Ready LD <span class="badge bg-success"></span>
+                          HD <span class="badge bg-success"></span>
+                  </p>
+                  <p class="left-align">Upcoming <span class="badge bg-warning"></span></p>
+                </div>
+                <div class="list-group list-group-flush stat-card-list">
+                    <a href="{% url 'pcbs' %}" class="list-group-item list-group-item-action list-group-item-primary">
+                        View all <i class="bi bi-arrow-right"></i>
+                    </a>
+                    <a href="{% url 'qc_pcb' %}" class="list-group-item list-group-item-action list-group-item-primary">
+                        QC <i class="bi bi-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col ms-auto">
+            <div class="card">
+              <div class="card-header">
+                <h6 class="card-title text-center">Sensors</h6>
+              </div> 
+              <div class="card-body">
+                <p class="left-align">Ready <span class="badge bg-success"></span></p>
+                <p class="left-align">Testing <span class="badge bg-warning"></span></p>
+              </div>
+              <div class="list-group list-group-flush stat-card-list">
+                <a href="#" class="list-group-item list-group-item-action list-group-item-primary">
+                    View all <i class="bi bi-arrow-right"></i>
+                </a>
+                <a href="#" class="list-group-item list-group-item-action list-group-item-primary">
+                    QC <i class="bi bi-arrow-right"></i>
+                </a>
+              </div>
+            </div>
+        </div>
+        <div class="col ms-auto">
+            <div class="card">
+              <div class="card-header">
+                <h6 class="card-title text-center">ROCs</h6>
+              </div> 
+              <div class="card-body">
+                <p class="left-align">Ready <span class="badge bg-success"></span></p>
+                <p class="left-align">Testing <span class="badge bg-warning"></span></p>
+              </div>
+              <div class="list-group list-group-flush stat-card-list">
+                <a href="#" class="list-group-item list-group-item-action list-group-item-primary">
+                    View all <i class="bi bi-arrow-right"></i>
+                </a>
+                <a href="#" class="list-group-item list-group-item-action list-group-item-primary">
+                    QC <i class="bi bi-arrow-right"></i>
+                </a>
+              </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row row-cols-1 filter-wrap justify-content-left py-2">
+      <div class="collapse" id="collapsedModuleFilter">
+          <h5>Filter here</h5>
+      </div>
+    </div>
+
+
+
+    <div class="row row-cols-1 row-cols-md-1 py-2">
+        <table class="table table-striped table-hover parts-table" id="modules_main_table">
+            <thead>
+                <tr>
+                  <th scope="col">Part_ID </th>
+                  <th scope="col">Type </th>
+                  <th scope="col">Batch </th>
+                  <th scope="col">Barcode </th>
+                  <th scope="col">Serial number </th>
+                  <th scope="col">Location </th>
+                  <th scope="col">Status </th>
+                  <th scope="col"></th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for data in modules_all %}
+                <tr>
+                    <td>{{ data.0 }}</td>
+                    <td>{{ data.1 }}</td>
+                    <td>{{ data.2 }}</td>
+                    <td>{{ data.3 }}</td>
+                    <td>{{ data.4 }}</td>
+                    <td>{{ data.5 }}</td>
+                    <td>{% if data.6 == 1782 %} UCSB
+                        {% elif data.6 == 1783 %} CERN
+                        {% endif %}
+                    </td>
+                    <td><a href="#" class="btn btn-primary"> View <i class="bi bi-caret-right-square-fill"></i></a></td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+           
+        </table>
+    </div>
+</div>
+
+{% endblock %}

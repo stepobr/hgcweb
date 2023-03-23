@@ -1,0 +1,18 @@
+{% extends 'homepage.html'%}
+{% load static %}
+
+{% block content %}
+
+    {% if graph %}
+        <div style="width:600;height:500">
+            {{ graph|safe }}
+        </div>
+    {% endif %}
+
+    {% if bar %}
+        <div style="width:600;height:500">
+            {{ bar|safe }}
+        </div>
+    {% endif %}
+
+{% endblock %}

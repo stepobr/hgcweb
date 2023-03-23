@@ -1,0 +1,120 @@
+/* .intro-page{
+    padding-top: 35px ;
+} */
+
+.page_content{
+    /* padding-top: 1em; */
+    margin-top: 1.3em;
+}
+
+.cards-main{
+    width: 15rem;
+    border: none;
+}
+
+.card-link{
+    box-shadow: 0px 0px 15px lightgrey;
+    /* box-shadow: 0 10px 40px 0 rgb(62 57 107 / 7%), 0 2px 9px 0 rgb(62 57 107 / 6%) */
+}
+
+.card-link:hover{
+    box-shadow: 0px 0px 30px grey;
+}
+.card-link a{
+    text-decoration-line: none;
+    color: black;
+}
+
+.second-row{
+    padding-top: 30px;
+}
+
+.cards-sub{
+    width: 15rem;
+    border: none;
+}
+.cards-sub a{
+    text-decoration-line: none;
+    color: black;
+    box-shadow: 0px 0px 15px lightgrey;
+}
+.cards-sub:hover{
+    box-shadow: 0px 0px 30px grey;
+}
+
+.qc-main{
+    padding: 10px 10px 5px 50px;
+}
+.qc-main form select{
+    margin: 0px 0px 0px 0px;
+}
+.select-test-type{
+    margin-top: 30px;
+}
+.qc-table-wrapper{
+    padding: 35px 0px 0px 0px;
+}
+
+#sign_in{
+    width: 7em;
+    margin: 0px 0px 0px 80%;  /*temp hack, remove*/
+}
+
+.left-align{
+    text-align: left;
+    margin: 0px 0px 2px 0px;
+}
+.top-space{
+    margin-top: 50px;
+}
+.stat-card-list a{
+    background-color: white;
+}
+.stat-card-list i{
+    float: right;
+}
+.control-buttons a{
+    margin: 0px 0px 10px 0px;
+}
+.parts-table a{
+    padding: 2px 8px;
+}
+.username{
+    color: white;
+    margin: 0px 15px 0px 0px;
+}
+
+#file_preview{
+    width: 640px;
+}
+.error{
+    color:red;
+    font-size: small;
+}
+.part-pic{
+    width:22em
+}
+
+/* dropdown---------------------------------------------------------------- */
+.dropdown-menu li {
+    position: relative;
+}
+.dropdown-menu .dropdown-submenu {
+    display: none;
+    position: absolute;
+    left: 100%;
+    top: -7px;
+}
+.dropdown-menu .dropdown-submenu-left {
+    right: 100%;
+    left: auto;
+}
+.dropdown-menu > li:hover > .dropdown-submenu {
+    display: block;
+}
+.dropdown-menu.show {
+    -webkit-animation: fadeIn 0.3s alternate;
+    /* Safari 4.0 - 8.0 */
+    animation: fadeIn 0.3s alternate;
+}
+/* ----------------------------------------------------------------dropdown */

@@ -1,0 +1,171 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8">
+  <meta name="keywords" content="">
+  <meta name="description" content="">
+  <title>HGC Parts Viewer Homepage</title>
+
+  <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.3/css/jquery.dataTables.min.css">
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+  <script type="text/javascript" src="{% static 'js/jquery3.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+  <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+
+</head>
+<body>
+  <header>
+    <div class="menu">
+      <nav class="navbar navbar-dark bg-dark navbar-expand-lg">
+        <div class="container-fluid">
+        
+          <a class="navbar-brand" href="{% url 'homepage' %}"> 
+            <img src="{% static 'img/cms.png' %}" width="30px">
+          </a>
+
+          <div class="collapse navbar-collapse" id="navbar-content">
+            <ul class="navbar-nav navbar-nav mr-auto mb-2 mb-lg-0">
+              <!-- Dropdown -->
+              <li class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-bs-toggle="dropdown" data-bs-auto-close="outside">Parts</a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                  <li>
+                    <a href="{% url 'simodules' %}" class="dropdown-item dropdown-toggle" >Silicon Modules</a>
+                    <ul class="dropdown-menu dropdown-submenu">
+                        <li><a class="dropdown-item" href="#">HGCROCs</a></li>
+                        <li><a class="dropdown-item" href="{% url 'pcbs' %}">PCBs</a></li>
+                        <li><a class="dropdown-item" href="#">Sensors</a></li>
+                      </ul>
+                  </li>
+
+                  <li>
+                    <a href="{% url 'scitiles' %}" class="dropdown-item" >Scintilator Modules</a>
+                    <ul class="dropdown-menu dropdown-submenu">
+                      <li><a class="dropdown-item" href="#">Tileboard</a></li>
+                      <li><a class="dropdown-item" href="#">SiPMs</a></li>
+                      <li><a class="dropdown-item" href="#">Tiles</a></li>
+                    </ul>
+                  </li>
+
+                  <li>
+                    <a class="dropdown-item" href="{% url 'cassettes' %}">Cassettes</a>
+                    {% comment %} 
+                    <a href="#" class="dropdown-item dropdown-toggle" data-bs-toggle="dropdown" data-bs-auto-close="outside">Cassettes </a>
+                    <ul class="dropdown-menu dropdown-submenu">
+                      <li><a class="dropdown-item" href="#">Submenu item 1</a></li>
+                      <li><a class="dropdown-item" href="#">Submenu item 2</a></li>
+                      <li><a class="dropdown-item" href="#">Submenu item 4</a></li>
+                      <li><a class="dropdown-item" href="#">Submenu item 5</a></li>
+                    </ul>
+                    {% endcomment %}
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'logistics' %}" class="nav-link" data-bs-auto-close="outside">Logistics</a>
+              </li>
+            </ul>
+          </div>
+
+ 
+          {% if user %}
+            <p class="username"> {{ user.name }}</p>
+            <a href="{{ logout }}" class="btn btn-outline-warning me-2" type="button" >logout</a>
+          {% else %}
+            <a href="/login/" class="btn btn-outline-success me-2" type="button">login</a>
+          {% endif %}
+
+           {% comment %} 
+          {% if user.is_authenticated %}
+            <p>Current user: {{ user.email }}</p>
+            <form action="{% url 'oidc_logout' %}" method="post">
+              {% csrf_token %}
+              <input type="submit" value="logout">
+            </form>
+            {% else %}
+              <a href="{% url 'oidc_authentication_init' %}" class="btn btn-outline-success me-2" type="button">Login</a>
+          {% endif %}
+          {% endcomment %}
+          
+          {% comment %} 
+          <form class="container-fluid justify-content-end col-md-1" id="sign_in">
+            <button class="btn btn-outline-success me-2" type="button">Sign in</button>
+          </form> 
+          {% endcomment %}
+
+
+
+           
+
+
+          {% comment %} <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Parts
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#">Modules</a></li>
+                  <li><a class="dropdown-item" href="#">Tiles</a></li>
+                  <li><a class="dropdown-item" href="#">Cassetes</a></li>
+                </ul>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Logistics</a>
+              </li>
+            </ul>
+          </div> {% endcomment %}
+          
+          {% comment %} MENU on side {% endcomment %}
+          {% comment %} <button class="navbar-toggler-icon" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas_menu" aria-controls="offcanvasDarkNavbar"> {% endcomment %}
+            {% comment %} <span class="navbar-toggler-icon">Menu</span> {% endcomment %}
+          {% comment %} </button> {% endcomment %}
+        </div>
+      </nav>
+
+
+
+      <div class="offcanvas offcanvas-start text-bg-dark" tabindex="-1" id="offcanvas_menu" aria-labelledby="offcanvasDarkNavbarLabel">
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Main menu</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+          <ul class="navbar-nav justify-content-start flex-grow-1 pe-3">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="{% url 'homepage' %}">Home</a>
+            </li>
+
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Parts
+              </a>
+              <ul class="dropdown-menu dropdown-menu-dark">
+                <li><a class="dropdown-item" href="{% url 'simodules' %}">SiModules</a></li>
+                <li><a class="dropdown-item" href="{% url 'scitiles' %}">SciModules</a></li>
+                <li><a class="dropdown-item" href="{% url 'cassettes' %}">Cassettes</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </header>
+
+  <div class="page_content">
+    {% block content %}{% endblock %}
+  </div>
+  
+  <footer></footer>
+  {% block teplate_specific_scripts %}{% endblock %}
+</body>
+</html>

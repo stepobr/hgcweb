@@ -1,0 +1,122 @@
+{% extends 'homepage.html'%}
+{% load static %}
+
+{% block content %}
+    <div class="pcb_view container">
+      
+      <div class="row justify-content-md-center gy-5">
+        <div class="col col-md-3 ">
+            {% comment %} <img src="{% get_media_prefix %}visual/gen.jpg" alt=""> {% endcomment %}
+            <div class="view-image-wrap d-flex justify-content-center">
+                <img src="{% static 'img/placeholder-image.png' %}" alt="" class='part-pic' >
+            </div>
+        </div>
+        <div class="col col-md-7">
+            <ul class="list-group list-group-flush" style="width: 80%;">
+                <li class="list-group-item">
+                    <span class="view-title">Barcode:</span>
+                    <span class="info">{{ pcb.0.0 }}</span>
+                </li>
+                <li class="list-group-item">
+                    <span class="view-title">Batch:</span>
+                    <span class="info">{{ pcb.0.1 }}</span>
+                </li>
+                <li class="list-group-item">
+                    <span class="view-title">Board Type:</span>
+                    <span class="info">
+                        {% if pcb.0.2 == 14000 %}PCB HD FULL
+                        {% elif pcb.0.2 == 14120 %}PCB LD FULL
+                        {% endif %}
+                    </span>
+                </li>
+                <li class="list-group-item">
+                    <span class="view-title">Serial Number:</span>
+                    <span class="info">{{ pcb.0.4 }} </span>
+                </li>
+                <li class="list-group-item">
+                    <span class="view-title">Version:</span>
+                    <span class="info"> {{ pcb.0.5 }}</span>
+                </li>
+                <li class="list-group-item">
+                    <span class="view-title">Production date:</span>
+                    <span class="info"> {{ pcb.0.6 }}</span>
+                </li>
+                <li class="list-group-item">
+                    <span class="view-title">Installation date:</span>
+                    <span class="info"> {{ pcb.0.7 }}</span>
+                </li>
+                <li class="list-group-item">
+                    <span class="view-title">Location ID:</span>
+                    <span class="info"> {{ pcb.0.3 }} </span>
+                </li>
+                <li class="list-group-item">
+                    <span class="view-title">Status</span>
+                    <span class="badge text-bg-warning">In testing</span>
+                </li>
+            </ul>
+        </div>
+      </div>
+
+
+      <div class="row justify-content-md-center gy-5">
+        <div class="col col-lg-10">
+        <h5>Additional Information</h5>
+        <div class="accordion accordion-flush" id="accordionFlushExample">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="flush-headingOne">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                  QC Stages
+                </button>
+              </h2>
+              <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body">
+                    {% comment %} <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <span class="view-title">Visual stage 1 (Bare)</span>
+                            <span class="badge text-bg-success">Passed</span>
+                        </li>
+                        <li class="list-group-item">
+                            <span class="view-title">Electrical stage 1 (Bare)</span>
+                            <span class="badge text-bg-success">Passed</span>
+                        </li>
+                        <li class="list-group-item">
+                            <span class="view-title">Visual stage 2 (After components mount)</span>
+                            <span class="badge text-bg-warning">In testing</span>
+                        </li>
+                    </ul> {% endcomment %}
+                </div>
+              </div>
+            </div>
+            
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="flush-headingTwo">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                  Realated components
+                </button>
+              </h2>
+              <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body">
+                    {% comment %} <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <span class="view-title">HGCROC #1:</span>
+                            <a href="#">chip_id</a>
+                        </li>
+                        <li class="list-group-item">
+                            <span class="view-title">HGCROC #2:</span>
+                            <a href="#">chip_id</a>
+                        </li>
+                        <li class="list-group-item">
+                            <span class="view-title">HGCROC #3:</span>
+                            <a href="#">chip_id</a>
+                        </li>
+                    </ul> {% endcomment %}
+                </div>
+              </div>
+            </div>
+        </div>
+        </div>
+       </div>
+
+    </div>
+
+{% endblock %}

@@ -1,0 +1,282 @@
+{% extends 'si_index.html'%}
+{% load static %}
+
+
+
+{% block content%}
+    <div class="qc-main col-lg-8">
+        {% comment %} <form method="post" action="{% url 'qc_add_visual' %}" enctype="multipart/form-data"> {% endcomment %}
+        <form method="post" action="{% url 'qc_new_visual' %}" enctype="multipart/form-data" id="new_visual_qc">
+            {% csrf_token %}
+            <div class="row mb-3">
+                <div class="col-sm-4">
+                    <label for="board_id" class="col-form-label form-control-sm form-check-inline">Board ID</label>
+                    <input type="text" class="col-form-label form-control form-control-sm form-check-inline" name="board_id" id="board_id">
+                </div> 
+                <div class="col-sm-4">
+                    <label for="test_date" class="col-form-label form-control-sm ">Test date</label>
+                    <input type="date" class="form-control form-control-sm" name="test_date" id="test_date">
+                </div>
+                <div class="col-sm-4">
+                    <label for="test_type" class="col-sm-4 col-form-label form-control-sm">Test type</label>
+                    <select class="form-select form-select-sm select-test-type" aria-label=".form-select-sm example" name="test_type" id="test_type">
+                        <option value="1">1st Inspection (Bare PCB)</option>
+                        <option value="2">2nd Inspection (Populated PCB)</option>
+                    </select>
+                </div>
+            </div>
+
+
+            <div class="row mb-3">
+                <div class="col-sm-4">
+                    <label for="input_manufacturer" class="col-sm-2 col-form-label form-control-sm">Manufacturer</label>
+                    <input type="text" class="form-control form-control-sm" name="input_manufacturer" id="input_manufacturer">
+                    {% comment %} <select class="form-select form-select-sm select-test-type" aria-label="form-select-sm" name="input_manufacturer" id="input_manufacturer">
+                        <option value="Cistelaier">Cistelaier</option>
+                        <option value="Eltos">Eltos</option>
+                        <option value="Plotech">Plotech</option>
+                        <option value="HighQ">HighQ</option>
+                        <option value="Micropack">Micropack</option>
+                        <option value="CERN">CERN</option>
+                    </select> {% endcomment %}
+                </div>
+                <div class="col-sm-4">
+                    <label for="input_batch" class="col-sm-2 col-form-label form-control-sm">Batch</label>
+                    <input type="text" class="form-control form-control-sm" name="input_batch" id="input_batch">
+                </div>
+                <div class="col-sm-4">
+                    <label for="input_version" class="col-sm-2 col-form-label form-control-sm">Version</label>
+                    <input type="text" class="form-control form-control-sm" name="input_version" id="input_version">
+                    {% comment %} <select class=" form-select form-select-sm select-test-type" name="input_version" id="input_version" >
+                        <option value="V1.3">V1.3 LD Full</option>
+                        <option value="V1.0">V1.0 Partial</option>
+                        <option value="V1.7">V1.7 HD Full</option>
+                    </select> {% endcomment %}
+                </div>
+            </div>
+
+
+            <div class="row mb-3">
+                <label for="comments_general" class="col-sm-2 col-form-label form-control-sm">General comments</label>
+                <div class="col-sm-8">
+                    <input type="text"class="form-control form-control-sm" name="comments_general" id="comments_general">
+                </div>
+            </div>
+
+            <div class="row mb-4">
+                <label for="input_thickness" class="col-sm-2 col-form-label form-control-sm">Thikness</label>
+                <div class="col-sm-2">
+                    <input type="text"class="form-control form-control-sm col-sm-3" name="input_thickness" id="input_thickness">
+                </div>
+                <span class="col-sm-2">mm</span>
+                
+            </div>
+
+
+            <div class="checks col-sm-12 row mb-3">
+                <fieldset class="row mb-3">
+                    <legend class="col-form-label col-sm-2 pt-1 form-control-sm">Flatness</legend>
+                    <div class="col-sm-8">
+                        <div class="form-check form-switch form-check-inline">
+                            <input class="form-check-input" type="checkbox" role="switch" name="switch_flatness" id="switch_flatness">
+                            <label class="form-check-label" for="switch_flatness">OK</label>
+                        </div>
+                        <div class="form-check-inline">
+                            <input class="form-control" type="text" placeholder="Comment" aria-label="Comment" name="comment_flatness" id="comment_flatness">
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset class="row mb-3">
+                    <legend class="col-form-label col-sm-2 pt-1 form-control-sm">Plating (BGA)</legend>
+                    <div class="col-sm-8">
+                        <div class="form-check form-switch form-check-inline">
+                            <input class="form-check-input" type="checkbox" role="switch" name="switch_plating_bga" id="switch_plating_bga">
+                            <label class="form-check-label" for="switch_plating_bga">OK</label>
+                        </div>
+                        <div class="form-check-inline">
+                            <input class="form-control" type="text" placeholder="Comment" aria-label="Comment" name="comment_plating_bga" id="comment_plating_bga">
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset class="row mb-3">
+                    <legend class="col-form-label col-sm-2 pt-1 form-control-sm">Plating Holes</legend>
+                    <div class="col-sm-8">
+                        <div class="form-check form-switch form-check-inline">
+                            <input class="form-check-input" type="checkbox" role="switch" name="switch_plating_holes" id="switch_plating_holes">
+                            <label class="form-check-label" for="switch_plating_holes">OK</label>
+                        </div>
+                        <div class="form-check-inline">
+                            <input class="form-control" type="text" placeholder="Comment" aria-label="Comment" name="comment_plating_holes" id="comment_plating_holes">
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset class="row mb-3">
+                    <legend class="col-form-label col-sm-2 pt-1 form-control-sm">Soldermask aligment</legend>
+                    <div class="col-sm-8">
+                        <div class="form-check form-switch form-check-inline">
+                            <input class="form-check-input" type="checkbox" role="switch" name="switch_soldermask" id="switch_soldermask">
+                            <label class="form-check-label" for="switch_soldermask">OK</label>
+                        </div>
+                        <div class="form-check-inline">
+                            <input class="form-control" type="text" placeholder="Comment" aria-label="Comment" name="comment_soldermask" id="comment_soldermask">
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset class="row mb-3">
+                    <legend class="col-form-label col-sm-2 pt-1 form-control-sm">Glue</legend>
+                    <div class="col-sm-8">
+                        <div class="form-check form-switch form-check-inline">
+                            <input class="form-check-input" type="checkbox" role="switch" name="switch_glue" id="switch_glue">
+                            <label class="form-check-label" for="switch_glue">OK</label>
+                        </div>
+                        <div class="form-check-inline">
+                            <input class="form-control" type="text" placeholder="Comment" aria-label="Comment" name="comment_glue" id="comment_glue">
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset class="row mb-3">
+                    <legend class="col-form-label col-sm-2 pt-1 form-control-sm">Accepted</legend>
+                    <div class="col-sm-8">
+                        <div class="form-check form-switch form-check-inline">
+                            <input class="form-check-input" type="checkbox" role="switch" name="switch_accepted" id="switch_accepted">
+                            <label class="form-check-label" for="switch_accepted">OK</label>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-sm-6">
+                    <label for="file_photo" class="form-label form-control-sm">Photo</label>
+                    <input class="form-control form-control-sm" type="file" accept=".jpg,.jpeg,.png,.bmp" name="file_pcb_photo" id="file_pcb_photo">
+                </div>
+            </div>
+
+            <div class="preview">
+                <img id="file_preview" alt="image preview" src="{% static 'img/placeholder-image.png' %}">
+            </div>
+
+            
+            <div class="row mb-3">
+                <button type="submit" class="btn btn-primary col-sm-4" id="submitBtn">Save</button>
+            </div>
+            
+        </form>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="qc_new_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Data Added</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="response_container">
+                    <h5>Data recorded Successfully</h5>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block teplate_specific_scripts %}
+    {% comment %} <script type="text/javascript" scr="{% static 'js/qc_upload.js' %}"></script> {% endcomment %}
+    <script type="text/javascript" >
+        //---- picture preview
+        //--v1
+        //function showPreview(event){
+        //    if(event.target.files.length > 0){
+        //      var src = URL.createObjectURL(event.target.files[0]);
+        //      var preview = document.getElementById("file-preview");
+        //      preview.src = src;
+        //      preview.style.display = "block";
+        //    }
+        //}
+        //--v2
+        file_pcb_photo.onchange = evt => {
+            const [file] = file_pcb_photo.files
+            if (file) {
+                file_preview.src = URL.createObjectURL(file)
+            }
+        }
+        
+        document.getElementById('test_date').valueAsDate = new Date();
+        //---- ajax send 
+        const qc_new_modal = new bootstrap.Modal('#qc_new_modal');
+        //const formm = document.getElementById("new_visual_qc");
+        $('#submitBtn').click(function (e) {
+            
+            //e.preventDefault();
+            //var serializedData = $(this).serialize();
+            //// let formData = new FormData($('#new_visual_qc')[0]);
+            //let csrftoken = $('input[name="csrfmiddlewaretoken"]').val();
+            //var formData = new FormData(formm);
+            //formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+
+
+            //---- validator
+            $('#new_visual_qc').validate({
+                rules: {
+                  board_id: "required",
+                  input_batch: "required",
+                  input_thickness: {
+                    required: true,
+                    number : true
+                  }
+                },
+                messages: {
+                  board_id: "Board ID required",
+                  input_batch: "Batch required",
+                  input_thickness: "Thikness must be defined"
+                },
+                submitHandler: function(form, event) {
+                    //event.preventDefault();
+                    //var serializedData = $(form).serialize();
+                    let csrftoken = $('input[name="csrfmiddlewaretoken"]').val();
+                    var formData = new FormData(form);
+                    formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+                    //form.submit();
+                    $.ajax({
+                        type: 'POST',
+                        url: "{% url 'qc_new_visual' %}",
+                        data: formData,
+                        //enctype: 'multipart/form-data',
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        // async: false,
+                        //headers: {'X-CSRF-Token': csrftoken},
+                        success: function(response){
+                            //$('#response_container').html("<div style='word-break: break-all;white-space: normal;'>"+JSON.stringify(response)+"</div>");
+                            // for(var property in response) { console.log(property + ": " + response[property]) }
+                            
+                            $('#response_container').html("<h5 style='color:green'>Data recorded Successfully</h5>");
+                            console.log(response);
+                            qc_new_modal.show();
+                            form.reset();
+                        },
+                        error: function (response) {
+                            // alert the error if any error occured
+                            //alert("Problems");
+                            $('#response_container').html("<h5 style='color:red'>Data insertion failed</h5>");
+                            qc_new_modal.show();
+                        }
+                    });
+                }
+            });
+
+
+            
+
+        });
+    </script>
+{% endblock %}

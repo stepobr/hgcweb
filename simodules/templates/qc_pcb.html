@@ -1,0 +1,81 @@
+{% extends 'si_index.html'%}
+
+{% block content%}
+    <div class="qc-main">
+        <a href="{% url 'qc_new_visual' %}" class="btn btn-primary" role="button"><i class="bi bi-plus-square"></i> New Visual</a>
+        <a href="{% url 'qc_new_electrical' %}" class="btn btn-primary" role="button"><i class="bi bi-plus-square"></i> New Electrical</a>
+
+        <div class="qc-table-wrapper new-data">
+            <table class="table table-striped table-hover" id='qctable_new'>
+                <thead>
+                    <tr>
+                      <th scope="col">PCB_Id</th>
+                      <th scope="col">Date</th>
+                      <th scope="col">TestedBy</th>
+                      <th scope="col">Stage</th>
+                      <th scope="col">Comments</th>
+                      <th scope="col">Flatness</th>
+                      <th scope="col">Thickness</th>
+                      <th scope="col">Plating BGA</th>
+                      <th scope="col">Stepped Holes</th>
+                      <th scope="col">Soldermask</th>
+                      <th scope="col">Glue</th>
+                      <th scope="col">Accepted</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for data in qc_visual_data_new %}
+                        <tr>
+                            <td>{{ data.pcb_id }}</td>
+                            <td>{{ data.test_date|date:"d/m/Y" }}</td>
+                            <td>{{ data.tested_by }}</td>
+                            <td>{{ data.stage }}</td>
+                            <td>{{ data.comments }}</td>
+                            <td>{{ data.flatness }}</td>
+                            <td>{{ data.thikness }}</td>
+                            <td>{{ data.plating_bga }}</td>
+                            <td>{{ data.plating_holes }}</td>
+                            <td>{{ data.mask_aligment }}</td>
+                            <td>{{ data.glue }}</td>
+                            <td>{{ data.accepted }}</td>
+                        </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+               
+            </table>
+        </div>
+
+
+        <div class="qc-table-wrapper">
+            <table class="table table-striped table-hover" id='qctable'>
+                <thead>
+                    <tr>
+                      <th scope="col">Record_Id</th>
+                      <th scope="col">Cond_set</th>
+                      <th scope="col">TestedBy</th>
+                      <th scope="col">Date</th>
+                      <th scope="col">Flatness</th>
+                      <th scope="col">Plating BGA</th>
+                      <th scope="col">Soldermask</th>
+                      <th scope="col">Stepped Holes</th>
+                      <th scope="col">Comments</th>
+                      <th scope="col">Grade</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for d in data %}
+                        <tr>
+                            {% for value in d %}
+                            <td>{{ value }}</td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+               
+            </table>
+        </div>
+
+    </div>
+{% endblock %}
