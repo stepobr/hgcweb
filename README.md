@@ -3,14 +3,13 @@
 
 
 ##### For local development
-##### Just a temporary fork for demonstration
+Just a temporary fork for demonstration
+
+Use venv as you normally do
+
+I use it with python 3.10
 
 ```bash
-  
-
-python venv environment
-source environment/bin/activate
-git clone
 cd hgcweb
 pip install -r requirements.txt
 
