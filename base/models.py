@@ -100,8 +100,8 @@ class Institution(ModelBase, Base):
     record_lastupdate_time = models.DateTimeField()
     record_lastupdate_user = models.TextField(max_length=50)
     comment_description = models.TextField(max_length=4000)
-    class Meta:
-        db_table = '"CMS_HGC_CORE_MANAGEMNT"."INSTITUTIONS"'
+    # class Meta:
+    #     db_table = '"CMS_HGC_CORE_MANAGEMNT"."INSTITUTIONS"'
     
     def __str__(self):
         return str(self.name)
@@ -118,8 +118,8 @@ class Location(models.Model):
     record_lastupdate_user = models.TextField(max_length=50)
     comment_description = models.TextField(max_length=4000)
     
-    class Meta:
-        db_table = '"CMS_HGC_CORE_MANAGEMNT"."LOCATIONS"'  # to be change to wherever we want locations to be
+    # class Meta:
+    #     db_table = '"CMS_HGC_CORE_MANAGEMNT"."LOCATIONS"'  # to be change to wherever we want locations to be
      
     def __str__(self):
         return str(self.location_name + ' [' + self.institution.name + ']' )
@@ -131,9 +131,9 @@ class Subdetector(ModelBase, Base):
     subdetector_id = models.AutoField(primary_key=True)
     subdetector_name = models.TextField(max_length=40)
     
-    class Meta: 
-        managed = False
-        db_table = '"CMS_HGC_CORE_CONSTRUCT"."SUBDETECTORS"'
+    # class Meta: 
+    #     managed = False
+    #     db_table = '"CMS_HGC_CORE_CONSTRUCT"."SUBDETECTORS"'
     
     def __str__(self):
         return str(self.subdetector_name)
@@ -143,10 +143,10 @@ class Manufacturer(models.Model):
     manufacturer_id = models.IntegerField(primary_key=True)
     manufacturer_name = models.TextField(max_length=40, null=False)
     
-    class Meta:
-        managed = False
-        ordering = ('manufacturer_name',)
-        db_table = '"CMS_HGC_CORE_CONSTRUCT"."MANUFACTURERS"'
+    # class Meta:
+    #     managed = False
+    #     ordering = ('manufacturer_name',)
+    #     db_table = '"CMS_HGC_CORE_CONSTRUCT"."MANUFACTURERS"'
 
 
 class Part(models.Model):
@@ -171,10 +171,10 @@ class Part(models.Model):
     comment_description = models.TextField(max_length=4000, null=False, blank=True)
     is_record_deleted = models.CharField(max_length=1, default='F', null=False)
     
-    class Meta:
-        managed = False
-        unique_together = ['serial_number', 'kind_of_part']
-        db_table = '"CMS_HGC_CORE_CONSTRUCT"."PARTS"'
+    # class Meta:
+    #     managed = False
+    #     unique_together = ['serial_number', 'kind_of_part']
+    #     db_table = '"CMS_HGC_CORE_CONSTRUCT"."PARTS"'
 
     def __str__(self):
         if self.serial_number:
@@ -222,10 +222,10 @@ class KindOfPart(ModelBase):
     record_lastupdate_user = models.TextField(max_length=50)
     comment_description = models.TextField(max_length=4000)
 
-    class Meta:
-        managed = False
-        # ordering = ('display_name',)
-        db_table = '"CMS_HGC_CORE_CONSTRUCT"."KINDS_OF_PARTS"'
+    # class Meta:
+    #     managed = False
+    #     # ordering = ('display_name',)
+    #     db_table = '"CMS_HGC_CORE_CONSTRUCT"."KINDS_OF_PARTS"'
     
     # def get_absolute_url(self):
     #     return reverse('part_edit', kwargs={'pk': self.pk})
@@ -253,10 +253,10 @@ class CondRun(models.Model):
     record_lastupdate_time = models.DateTimeField()
     record_lastupdate_user = models.TextField(max_length=50)
 
-    class Meta:
-        managed = False
-        app_label = 'construct'
-        db_table = '"CMS_HGC_CORE_COND"."COND_RUNS"'
+    # class Meta:
+    #     managed = False
+    #     app_label = 'construct'
+    #     db_table = '"CMS_HGC_CORE_COND"."COND_RUNS"'
 
     def __str__(self):
         return str(self.run_name)
@@ -273,11 +273,11 @@ class KindOfCondition(models.Model):
     record_lastupdate_user = models.TextField(max_length=50)
     category_name = models.CharField(max_length=40)
 
-    class Meta:
-        managed = False
-        # verbose_name = _("KindOfCondition")
-        # verbose_name_plural = _("KindOfConditions")
-        db_table = '"CMS_HGC_CORE_COND"."KINDS_OF_CONDITIONS"'
+    # class Meta:
+    #     managed = False
+    #     # verbose_name = _("KindOfCondition")
+    #     # verbose_name_plural = _("KindOfConditions")
+    #     db_table = '"CMS_HGC_CORE_COND"."KINDS_OF_CONDITIONS"'
 
     def __str__(self):
         return self.name
@@ -316,10 +316,10 @@ class ConditionsDataSets(models.Model):
     record_insertion_time = models.DateTimeField(null=False, default=timezone.now)
     record_insertion_user = models.TextField(max_length=50, null=False)
 
-    class Meta:
-        # verbose_name = _("conditionsdataset")
-        # verbose_name_plural = _("conditionsdatasets")
-        db_table = '"CMS_HGC_CORE_COND"."COND_DATA_SETS"'
+    # class Meta:
+    #     # verbose_name = _("conditionsdataset")
+    #     # verbose_name_plural = _("conditionsdatasets")
+    #     db_table = '"CMS_HGC_CORE_COND"."COND_DATA_SETS"'
 
     def __str__(self):
         return self.name
@@ -339,11 +339,11 @@ class HGCROCTest(models.Model):
     hgcroc_status          = models.CharField(max_length=12)
     comments               = models.CharField(max_length=100)
     
-    class Meta:
-        # verbose_name = _("hgcroc-test")
-        # verbose_name_plural = _("hgcroc-tests")
-        # app_label = 'construct'
-        db_table = '"CMS_HGC_HGCAL_COND"."HGCROC_TEST"'
+    # class Meta:
+    #     # verbose_name = _("hgcroc-test")
+    #     # verbose_name_plural = _("hgcroc-tests")
+    #     # app_label = 'construct'
+    #     db_table = '"CMS_HGC_HGCAL_COND"."HGCROC_TEST"'
 
     def __str__(self):
         return self.name

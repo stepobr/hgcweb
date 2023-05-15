@@ -8,4 +8,5 @@ from . import views
 
 urlpatterns = [
     path('', views.cassettes, name='cassettes'),
+    path('construct/', include('cassettes.construct.urls')),
 ]

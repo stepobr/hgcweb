@@ -8,7 +8,7 @@ class MainDBRouter:
         Attempts to read attribute models go to administration.
         """
         if model._meta.app_label == 'construct':
-            return 'construct-dev'
+            return 'default'
         return None
 
     def db_for_write(self, model, **hints):
@@ -16,7 +16,7 @@ class MainDBRouter:
         Attempts to write attribute models go to administration.
         """
         if model._meta.app_label == 'construct':
-            return 'construct-dev'
+            return 'default'
         return None
 
     def allow_relation(self, obj1, obj2, **hints):
@@ -34,5 +34,5 @@ class MainDBRouter:
         database.
         """
         if app_label == 'construct':
-            return db == 'construct-dev'
+            return db == 'default'
         return None

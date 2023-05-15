@@ -45,7 +45,7 @@ SECRET_KEY = 'django-insecure-xjtw_ay#'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost','hgcweb-dev.cern.ch']
+ALLOWED_HOSTS = ['127.0.0.1','hgcweb-dev.cern.ch']
 
 
 # Application definition
@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     'simodules',
     'scitiles',
     'cassettes',
+    'cassettes.construct',
     'logistics'
 ]
 
@@ -72,7 +73,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    # 'base.middleware.oauth.OAuthMiddleware',
+    #'base.middleware.oauth.OAuthMiddleware',
 ]
 
 ROOT_URLCONF = 'hgcweb.urls'
@@ -105,16 +106,16 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     },
-    'construct-dev':{
-        'ENGINE': 'django.db.backends.oracle',
-        'NAME': DB_NAME,
-        'USER': f'{DB_ACCOUNT}', 
-        'PASSWORD': DB_PASSWORD, 
-        'TEST': {
-            'MIRROR': 'construct-dev',
-        },
-        'TIME_ZONE': 'Etc/GMT-1'
-    }
+    # 'construct-dev':{
+    #     'ENGINE': 'django.db.backends.oracle',
+    #     'NAME': DB_NAME,
+    #     'USER': f'{DB_ACCOUNT}', 
+    #     'PASSWORD': DB_PASSWORD, 
+    #     'TEST': {
+    #         'MIRROR': 'construct-dev',
+    #     },
+    #     'TIME_ZONE': 'Etc/GMT-1'
+    # }
 }
 
 
@@ -191,7 +192,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Admin page
-ADMIN_ENABLED = False
+ADMIN_ENABLED = True
 
 
 

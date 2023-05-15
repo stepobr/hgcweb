@@ -1,0 +1,100 @@
+{% extends 'homepage.html' %}
+{% load static %}
+
+{% block content %}
+
+<script>
+	let clickFlag = false;
+	document.getElementById('active').value = document.getElementById(id).getAttribute('active');
+	var active = document.getElementById('active').value;
+	console.log(active);
+	function ModMouseOver(id) {
+		if (!clickFlag) {
+		document.getElementById('uv').value=document.getElementById(id).getAttribute('uv');
+		document.getElementById('id').value=document.getElementById(id).getAttribute('id');
+		document.getElementById('barcode').value=document.getElementById(id).getAttribute('barcode');
+		document.getElementById('type').value=document.getElementById(id).getAttribute('type');
+		document.getElementById('placed').value=document.getElementById(id).getAttribute('placed');
+		document.getElementById(id).style='stroke:black;stroke-width:2';
+		document.getElementById(id).style.opacity='0.4';
+		
+		}
+	}
+	function ModMouseOut(id) {
+		if (!clickFlag) {
+		document.getElementById(id).style='stroke:black;stroke-width:2';
+		document.getElementById(id).style.opacity=value=document.getElementById(id).getAttribute('opacity');
+		}
+	}
+	function ModOnClick(id) {
+		if (clickFlag) { 
+			clickFlag=false;
+		}
+		else {
+		clickFlag=true;
+		document.getElementById(id).style='stroke:black;stroke-width:15';
+		document.getElementById(id).style.opacity='1.0';
+		
+		}
+	
+	}
+					
+</script>
+
+<div class="intro-page container">
+	<div class="row">
+
+		<div class="col sm">
+			<div class = "card">
+				{% for item in cassetteinstance %}
+				<ul class="list-group list-group-flush">
+				<li class="list-group-item">Cassette barcode: {{ item.barcode }}</li>
+				<li class="list-group-item">Workstation: {{ item.workstation }}</li>
+				{% for step in stepinstance %}
+				<li class="list-group-item">Step number: {{ step.name }}</li>
+				<li class="list-group-item">Step details: {{ step.details }}</li>
+				{% endfor %}
+			</div>
+		</div>
+
+		<div class="col sm">
+			<div class = "card">
+				{{ svg_str|safe }}
+			</div> 
+		</div>
+		<div class="col sm">
+		<div class = "card">
+			<form method='POST' action="{% url 'place_part' parent_id=item.id%}">
+			<div class = "form-group" >
+				{% csrf_token %}
+				<label name = "Location" for='uv'> Location: </label>
+				<input class="form-control" name = 'uv' id='uv' type='text' value='' disabled > <br>
+
+				<label name = "type" for='type'>  Type: </label>
+				<input class="form-control" name = 'type' id='type' type='text' value="" disabled > <br>	
+
+				<input type="hidden" name = 'id' id='id' type='text' value="" enabled >
+
+				<label name = "placed" for="placed">Placed: </label> <br>
+				<input class="form-control" name = 'placed' id='placed' type='text' value="" enabled > <br>
+
+				<label name = "Barcode" for='barcode'>  Barcode: </label>
+				<input class="form-control" name = 'barcode' id='barcode' type='text' value="" enabled > <br>
+				
+				<button class="btn btn-primary btn-md" type="submit" value="Submit">Place</button> <br><br><br><br><br>
+
+				<a href="{% url 'prev_step' parent_id=item.id %}" class="btn btn-primary">Prev step</a>	
+				<a href="{% url 'next_step' parent_id=item.id %}" class="btn btn-primary">Next step</a>
+			</div>			
+			</div>
+
+			</form>
+	
+			{% endfor %}
+		</div>
+		
+		</div>
+	</div>
+
+
+{% endblock %}
