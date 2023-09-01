@@ -13,18 +13,23 @@
           </tr>
         </thead>
         <tbody>
-            {% for workstation in workstations %}
-            <tr>
-            <td>{{ workstation.name }}</td>
-            <td>{{ workstation.cassette }}</td>
-            <td>{{ workstation.cassette.side }}</td>
-            <td>{{ workstation.cassette.step }}</td>
-            {% if not workstation.cassette %}
-            <td><a href="{% url 'cassette_create' %}" class="btn btn-primary"> Start </a></td>
-            {% endif %}
-                {% if workstation.cassette %}
-                        <td><a href="{% url 'view_step' parent_id=workstation.cassette.pk %}" class="btn btn-primary"> Continue </a></td>
-                {% endif %}           
-            {% endfor %}
 
+              {% for workstation in workstations %}
+              <tr>
+                <td>{{ workstation.name }}</td>
+                <td>{{ workstation.cassette }}</td>
+              
+              {% with first_assembly=workstation.cassette.assembly.first %}
+                <td>{{ first_assembly.side }}</td>
+                <td>{{ first_assembly.step }}</td>
+              
+
+              {% if not workstation.cassette %}
+              <td><a href="{% url 'cassette_create' %}" class="btn btn-primary"> Start </a></td>
+              {% endif %} 
+              {% if workstation.cassette %}
+              <td><a href="{% url 'view_step' parent_id=first_assembly.layer %}" class="btn btn-primary"> Continue </a></td>
+              {% endif %}
+              {% endwith %}
+            {% endfor %}
 {% endblock %}

@@ -7,37 +7,57 @@
 	let clickFlag = false;
 	document.getElementById('active').value = document.getElementById(id).getAttribute('active');
 	var active = document.getElementById('active').value;
-	console.log(active);
+	
 	function ModMouseOver(id) {
-		if (!clickFlag) {
+		if (!clickFlag && isActive(id)) {
 		document.getElementById('uv').value=document.getElementById(id).getAttribute('uv');
 		document.getElementById('id').value=document.getElementById(id).getAttribute('id');
 		document.getElementById('barcode').value=document.getElementById(id).getAttribute('barcode');
 		document.getElementById('type').value=document.getElementById(id).getAttribute('type');
 		document.getElementById('placed').value=document.getElementById(id).getAttribute('placed');
 		document.getElementById(id).style='stroke:black;stroke-width:2';
-		document.getElementById(id).style.opacity='0.4';
+		document.getElementById(id).style.opacity='0.5';
 		
 		}
 	}
 	function ModMouseOut(id) {
-		if (!clickFlag) {
+		if (!clickFlag && isActive(id)) {
 		document.getElementById(id).style='stroke:black;stroke-width:2';
 		document.getElementById(id).style.opacity=value=document.getElementById(id).getAttribute('opacity');
 		}
 	}
 	function ModOnClick(id) {
-		if (clickFlag) { 
-			clickFlag=false;
+		if (isActive(id)) {
+		  if (clickFlag) {
+			clickFlag = false;
+			hideArrow(id);
+		  } else {
+			clickFlag = true;
+			showArrow(id);
+			document.getElementById(id).style='stroke:black;stroke-width:15';
+			document.getElementById(id).style.opacity='1.0';
+		  }
 		}
-		else {
-		clickFlag=true;
-		document.getElementById(id).style='stroke:black;stroke-width:15';
-		document.getElementById(id).style.opacity='1.0';
-		
+	  }
+	  
+	  function showArrow(id) {
+		var arrow = document.getElementById('arrow' + id);
+		if (arrow) {
+		  arrow.style.display = 'block';
 		}
-	
-	}
+	  }
+	  
+	  function hideArrow(id) {
+		var arrow = document.getElementById('arrow' + id);
+		if (arrow) {
+		  arrow.style.display = 'none';
+		}
+	  }
+	function isActive(id) {
+		var active = document.getElementById(id).getAttribute('active');
+		return active === 'true';
+	  }
+	  
 					
 </script>
 
@@ -46,14 +66,14 @@
 
 		<div class="col sm">
 			<div class = "card">
-				{% for item in cassetteinstance %}
+				{% comment %} {% for item in cassetteinstance %} {% endcomment %}
 				<ul class="list-group list-group-flush">
-				<li class="list-group-item">Cassette barcode: {{ item.barcode }}</li>
-				<li class="list-group-item">Workstation: {{ item.workstation }}</li>
-				{% for step in stepinstance %}
-				<li class="list-group-item">Step number: {{ step.name }}</li>
-				<li class="list-group-item">Step details: {{ step.details }}</li>
-				{% endfor %}
+				<li class="list-group-item">Cassette barcode: {{ cassetteinstance.cassette.barcode }}</li>
+				<li class="list-group-item">Workstation: {{ cassetteinstance.cassette.workstation }}</li>
+				{% comment %} {% for step in stepinstance %} {% endcomment %}
+				<li class="list-group-item">Step number: {{ cassetteinstance.step.name }}</li>
+				<li class="list-group-item">Step details: {{ cassetteinstance.step.details }}</li>
+				{% comment %} {% endfor %} {% endcomment %}
 			</div>
 		</div>
 
@@ -64,7 +84,7 @@
 		</div>
 		<div class="col sm">
 		<div class = "card">
-			<form method='POST' action="{% url 'place_part' parent_id=item.id%}">
+			<form method='POST' action="{% url 'place_part' parent_id=cassetteinstance.layer%}">
 			<div class = "form-group" >
 				{% csrf_token %}
 				<label name = "Location" for='uv'> Location: </label>
@@ -83,14 +103,14 @@
 				
 				<button class="btn btn-primary btn-md" type="submit" value="Submit">Place</button> <br><br><br><br><br>
 
-				<a href="{% url 'prev_step' parent_id=item.id %}" class="btn btn-primary">Prev step</a>	
-				<a href="{% url 'next_step' parent_id=item.id %}" class="btn btn-primary">Next step</a>
+				<a href="{% url 'prev_step' parent_id=cassetteinstance.layer %}" class="btn btn-primary">Prev step</a>	
+				<a href="{% url 'next_step' parent_id=cassetteinstance.layer %}" class="btn btn-primary">Next step</a>
 			</div>			
 			</div>
 
 			</form>
 	
-			{% endfor %}
+			{% comment %} {% endfor %} {% endcomment %}
 		</div>
 		
 		</div>

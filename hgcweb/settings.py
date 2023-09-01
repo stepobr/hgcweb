@@ -62,7 +62,8 @@ INSTALLED_APPS = [
     'scitiles',
     'cassettes',
     'cassettes.construct',
-    'logistics'
+    'logistics',
+    #'django_extensions'
 ]
 
 MIDDLEWARE = [

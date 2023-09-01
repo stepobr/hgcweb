@@ -34,29 +34,49 @@ class Step(models.Model):
         return str(self.name)
 
 class Cassette(models.Model):
-    #name = models.CharField(max_length=50, null=True)
-    name = models.CharField(choices=CassetteNames, null=True, max_length=50)
-    step = models.IntegerField(default=1)
-    workstation = models.OneToOneField('Workstation', on_delete=models.PROTECT, null=True, blank=True, related_name="cassette_workstation")
     barcode = models.IntegerField(null=True, blank=True)
-    side = models.CharField(max_length=50, default="1")
+    name = models.CharField(choices=CassetteNames, null=True, max_length=50)
+    workstation = models.OneToOneField('Workstation', on_delete=models.PROTECT, null=True, blank=True, related_name="cassette_workstation")
     started = models.BooleanField(default="False")
+    done = models.BooleanField(default="False")
     def __str__(self):
         return str(self.name)
     def get_absolute_url(self):
         return ""
 
-class Part(models.Model):
-    name = models.CharField(max_length=50, null=True)
+class CassetteType(models.Model):
+    number = models.IntegerField(null=True, blank=True)
+    name = models.CharField(max_length=100, null=True)
+    def __str__(self):
+        return str(self.name)
+    def get_absolute_url(self):
+        return ""
+
+class CassetteAssembly(models.Model):
+    cassette = models.ForeignKey('Cassette', on_delete=models.PROTECT, null=True, related_name='assembly')
+    workstation = models.ForeignKey('Workstation', on_delete=models.PROTECT, null=True, related_name='work')
+    side = models.CharField(max_length=50, default="1")
+    layer = models.IntegerField(default=1)
+    step = models.ForeignKey('Step', on_delete=models.PROTECT, null=True, related_name='step')
     barcode = models.IntegerField(null=True, blank=True)
-    cassette = models.ForeignKey('Cassette', on_delete=models.PROTECT, null=True)
     module = models.ForeignKey('Modulemap', on_delete=models.PROTECT, null=True)
-    type = models.CharField(max_length=50, null=True)
     placed = models.BooleanField(default = False)
     def __str__(self):
         return str(self.id)
     def get_absolute_url(self):
-        return "list"
+        return "list"    
+
+# class Part(models.Model):
+#     name = models.CharField(max_length=50, null=True)
+#     barcode = models.IntegerField(null=True, blank=True)
+#     cassette = models.ForeignKey('Cassette', on_delete=models.PROTECT, null=True)
+#     module = models.ForeignKey('Modulemap', on_delete=models.PROTECT, null=True)
+#     type = models.CharField(max_length=50, null=True)
+#     placed = models.BooleanField(default = False)
+#     def __str__(self):
+#         return str(self.id)
+#     def get_absolute_url(self):
+#         return "list"
 
 
 class Modulemap(models.Model):
