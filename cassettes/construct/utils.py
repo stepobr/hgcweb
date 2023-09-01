@@ -1,4 +1,4 @@
-from cassettes.construct.models import Cassette,Part,Modulemap,Step
+from cassettes.construct.models import Cassette,CassetteAssembly, Modulemap,Step
 import csv
 
 types = {
@@ -268,37 +268,54 @@ def upload_csv_to_model(filename):
 
 
 def generate_svg(parent_id):
-    cassette = Cassette.objects.get(pk=parent_id)
-    if not cassette.started:
-        upload_csv_to_model('cassettes/construct/modulemapper_geometry.hgcal.txt')
-        cassette.started = True
-        cassette.save()
-    step = Step.objects.get(pk=cassette.step)
-    layer = str(int(cassette.name.replace('CEE',''))*2 + int(cassette.side) - 2) 
-    shapes = Modulemap.objects.filter(icassette="1",plane=layer)
-    svgstring = '<svg height=\'600\' width=\'700\'>\n'
-    if (int(cassette.side)==1 ): 
-        svgstring += '<g transform =\"translate(30,510) scale(0.4,-0.4) rotate(%s,0,0)\">\n' % (str(0))
-    else: 
-        svgstring += '<g transform =\"translate(30,510) scale(0.4,0.4) rotate(%s,0,0)\">\n' % (str(-60))       
+    #assembly = CassetteAssembly.objects.get(pk=parent_id)
+    # if not cassette.started:
+    #     #upload_csv_to_model('cassettes/construct/modulemapper_geometry.hgcal.txt')
+    #     cassette.started = True
+    #     cassette.save()
+    #step = Step.objects.get(pk=cassette.step)
+    #layer = str(int(cassette.name.replace('CEE',''))*2 + int(cassette.side) - 2)
+    # remove cassette.side for now
+    #
+    num = 0
+    shapes = CassetteAssembly.objects.filter(layer=parent_id)
+    svgstring = '<svg id=\'svg-assembly\' height=\'600\' width=\'700\'>\n'
+    svgstring+='<defs>\n'
+    svgstring+=' <marker id="arrowMarker" markerWidth="20" markerHeight="20" refX="18" refY="10" orient="auto" markerUnits="userSpaceOnUse">\n'
+    svgstring+='  <polygon points="0,0 16,10 0,20" style="fill: black;" /> \n'
+    svgstring+='</marker>\n'
+    svgstring+='</defs>\n'
+    # if (int(cassette.side)==1 ): 
+    svgstring += '<g transform =\"translate(30,510) scale(0.4,-0.4) rotate(%s,0,0)\">\n' % (str(0))
+    # else: 
+    #     svgstring += '<g transform =\"translate(30,510) scale(0.4,0.4) rotate(%s,0,0)\">\n' % (str(-60))       
     for shape in shapes:
-            part, _ = Part.objects.get_or_create(module=shape)
+            # part, _ = Part.objects.get_or_create(module=shape)
             active = False
-            if (step.parts == types[shape.itype]["den"]): active = True
-            numbers = [float(i) for i in types[shape.itype]["pg"].split(',')]
-            totalrot = 60*float(types[shape.itype]["roff"]) + 60*float(shape.irot)
-            trans = 'translate(%s, %s) rotate(%d, 0, 0)' % (shape.x0,shape.y0,totalrot)
-            cenx = float(shape.x0)
-            ceny = float(shape.y0)
-            fill = types[shape.itype]["fill"]
-            opacity = 0.1
-            if part.placed == True:
+            if (shape.step.parts == types[shape.module.itype]["den"]): active = True
+            numbers = [float(i) for i in types[shape.module.itype]["pg"].split(',')]
+            totalrot = 60*float(types[shape.module.itype]["roff"]) + 60*float(shape.module.irot)
+            trans = 'translate(%s, %s) rotate(%d, 0, 0)' % (shape.module.x0,shape.module.y0,totalrot)
+
+            cenx = float(shape.module.x0)
+            ceny = float(shape.module.y0)
+            fill = types[shape.module.itype]["fill"]
+            opacity = 0.3
+            if shape.placed == True:
                 fill = "rgb(0, 0, 255)"
-                opacity = 1.0
+                opacity = 0.3
             if not active:
                  fill = "rgb(200, 200, 200)"
-            hexagon = '<polygon uv=\"u%sv%s\" points=\"%s\" fill=\"%s\" type=\"%s\" placed=\"%s\" id=\"%s\" barcode=\"%s\" active=\"%s\" transform=\"%s\" style=\'stroke:black;stroke-width:2\' opacity=\"%s\", onmouseover=\"ModMouseOver(this.id);\", onmouseout=\"ModMouseOut(this.id);\", onclick=\"ModOnClick(this.id);\") /> \n' % (shape.u,shape.v,types[shape.itype]["pg"],fill,shape.itype, part.placed, part.pk, part.barcode, str(active).lower(), trans, opacity)      
+            if active:
+                 num+=1
+            hexagon = '<polygon uv=\"u%sv%s\" points=\"%s\" fill=\"%s\" type=\"%s\" placed=\"%s\" id=\"%s\" barcode=\"%s\" active=\"%s\" transform=\"%s\" style=\'stroke:black;stroke-width:2\' opacity=\"%s\", onmouseover=\"ModMouseOver(this.id);\", onmouseout=\"ModMouseOut(this.id);\", onclick=\"ModOnClick(this.id);\") /> \n' % (shape.module.u,shape.module.v,types[shape.module.itype]["pg"],fill,shape.module.itype, shape.placed, shape.pk, shape.barcode, str(active).lower(), trans, opacity)      
+            digit = '<text id="text%s\" x=0 y=0 transform=\"translate(%s, %s) rotate(%d, 0, 0) scale(-1,1)\" text-anchor="middle" alignment-baseline="middle" dominant-baseline="middle" fill="black" font-size="35px">%s</text> \n' % (num, cenx, ceny, 180, num)
+            arrow = '<line id="arrow%s\" x1="0" y1="30" x2="0" y2="80" style="stroke: black; stroke-width: 6; marker-end: url(#arrowMarker);" transform=\"%s\" display="none"/> \n' % (shape.pk, trans)
+            #hexagon = '<polygon uv=\"u%sv%s\" points=\"%s\" fill=\"%s\" type=\"%s\" placed=\"%s\" id=\"%s\" barcode=\"%s\" active=\"%s\" transform=\"%s\" style=\'stroke:black;stroke-width:2\' opacity=\"%s\") /> \n' % (shape.module.u,shape.module.v,types[shape.module.itype]["pg"],fill,shape.module.itype, shape.placed, shape.pk, shape.barcode, str(active).lower(), trans, opacity)                  
             svgstring+=hexagon
+            if active:
+                 svgstring+=digit
+                 svgstring+=arrow
   
     svgstring+='<polyline id=\'Xaxis\'  points=\'0,0 1700,0\' style=\'stroke:black;stroke-width:1\' /><polyline  points=\'0,0 849.53,1472.48\' style=\'stroke:black;stroke-width:1\' />\n'
     svgstring+='</g>\n'
